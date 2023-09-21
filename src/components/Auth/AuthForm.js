@@ -18,6 +18,32 @@ const AuthForm = () => {
     const enteredPassword = passwordInputRef.current.value;
     setRequest(true);
     if (isLogin) {
+      fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAk_e3NbGKya1-s6hMLpBKK6mk5Ccf3tFU",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true,
+          }),
+          headers: { "Content-Type": "application/json" },
+        }
+      ).then((res) => {
+        if (res.ok) {
+          console.log("Logged In");
+          res.json().then((data) => {
+            console.log(data.idToken);
+          });
+          setRequest(false);
+        } else {
+          res.json().then((data) => {
+            console.log(data);
+            alert(data.error.message);
+            setRequest(false);
+          });
+        }
+      });
     } else {
       fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAk_e3NbGKya1-s6hMLpBKK6mk5Ccf3tFU",
@@ -32,11 +58,13 @@ const AuthForm = () => {
         }
       ).then((res) => {
         if (res.ok) {
-          console.log("OK");
+          console.log("Signed UP");
+          setRequest(false);
         } else {
           res.json().then((data) => {
             console.log(data);
             alert(data.error.message);
+            setRequest(false);
           });
         }
       });
