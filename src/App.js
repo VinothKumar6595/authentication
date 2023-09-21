@@ -4,8 +4,8 @@ import Layout from "./components/Layout/Layout";
 import UserProfile from "./components/Profile/UserProfile";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import AuthContext from "./components/Store/Auth-Context";
 import AuthContextProvider from "./components/Store/AuthContextProvider";
+import PasswordChangePage from "./pages/PasswordChangePage";
 
 function App() {
   return (
@@ -20,6 +20,9 @@ function App() {
           </Route>
           <Route path="/profile">
             <UserProfile />
+          </Route>
+          <Route path="/changepassword">
+            <PasswordChangePage />
           </Route>
         </Switch>
       </Layout>

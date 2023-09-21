@@ -1,9 +1,11 @@
 import { useState, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 import AuthContext from "../Store/Auth-Context";
 
 const AuthForm = () => {
+  const history = useHistory();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +15,7 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
   const authCntx = useContext(AuthContext);
+
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
@@ -36,6 +39,7 @@ const AuthForm = () => {
           res.json().then((data) => {
             console.log(data.idToken);
             authCntx.addId(data.idToken);
+            history.push("/changepassword");
           });
           setRequest(false);
         } else {
@@ -72,6 +76,7 @@ const AuthForm = () => {
       });
     }
   };
+
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
