@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import classes from "./AuthForm.module.css";
+import AuthContext from "../Store/Auth-Context";
 
 const AuthForm = () => {
   const emailInputRef = useRef();
@@ -11,7 +12,7 @@ const AuthForm = () => {
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
-
+  const authCntx = useContext(AuthContext);
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
@@ -34,6 +35,7 @@ const AuthForm = () => {
           console.log("Logged In");
           res.json().then((data) => {
             console.log(data.idToken);
+            authCntx.addId(data.idToken);
           });
           setRequest(false);
         } else {
@@ -70,7 +72,6 @@ const AuthForm = () => {
       });
     }
   };
-
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
