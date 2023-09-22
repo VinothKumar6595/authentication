@@ -38,8 +38,8 @@ const AuthForm = () => {
           console.log("Logged In");
           res.json().then((data) => {
             console.log(data.idToken);
-            authCntx.addId(data.idToken);
-            history.push("/changepassword");
+            authCntx.login(data.idToken);
+            history.push("/profile");
           });
           setRequest(false);
         } else {

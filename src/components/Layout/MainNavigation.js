@@ -8,9 +8,12 @@ const MainNavigation = () => {
   const authCntx = useContext(AuthContext);
   const history = useHistory();
   const logOutHandler = () => {
-    authCntx.addId("");
+    authCntx.logout();
     history.push("/auth");
   };
+
+  console.log(authCntx.isLoggedIn);
+  const loggedIn = authCntx.isLoggedIn;
   return (
     <header className={classes.header}>
       <Link to="/">
@@ -18,17 +21,21 @@ const MainNavigation = () => {
       </Link>
       <nav>
         <ul>
-          <li>
-            {authCntx.idToken.length === 0 && <Link to="/auth">Login</Link>}
-          </li>
-          <li>
-            {authCntx.idToken.length > 0 && <Link to="/profile">Profile</Link>}
-          </li>
-          <li>
-            {authCntx.idToken.length > 0 && (
+          {!loggedIn && (
+            <li>
+              <Link to="/auth">Login</Link>
+            </li>
+          )}
+          {loggedIn && (
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          )}
+          {loggedIn && (
+            <li>
               <button onClick={logOutHandler}>Logout</button>
-            )}
-          </li>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
